@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     private FaultScheduler _faultScheduler;
     private float _progressValue;
     
+    private int _durability;
 
     public FacilityManager FacilityManager => _facilityManager;
     public SystemTimer SystemTimer => _systemTimer;
@@ -103,6 +104,13 @@ public class GameManager : MonoBehaviour
     private void OnTimerEnd()
     {
         Debug.Log("시스템 유지 실패");
+        //경고음, 체력 깎기
+        _durability--;
+        mainPanelDisplay.SetDurability(_durability/maxDurability);
+        if (_durability == 0)
+        {
+            //게임오버.
+        }
     }
 
 }

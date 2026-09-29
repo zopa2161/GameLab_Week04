@@ -12,6 +12,12 @@ public interface IDraggable
     /// <summary>잡고 있는 동안 매 프레임. 픽셀 단위 마우스 이동량.</summary>
     void Drag(Vector2 mouseDelta);
 
-    /// <summary>놓는 순간 한 번.</summary>
+    /// <summary>놓는 순간 한 번. 이미 끝난 상태에서 불려도 안전해야 한다.</summary>
     void EndDrag();
+
+    /// <summary>
+    /// 지금 잡혀 있는지. 장치가 스스로 드래그를 끝내면(수리 후 초기화 등) false가 되고,
+    /// FirstPersonController가 이를 보고 드래그를 정리한다.
+    /// </summary>
+    bool IsDragging { get; }
 }

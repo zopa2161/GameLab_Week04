@@ -83,6 +83,7 @@ public class MainPanelDisplay : MonoBehaviour
         _facilityManager = gameManager.FacilityManager;
 
         _facilityManager.OnFacilityStatusChanged += OnFacilityStatusChanged;
+        _facilityManager.OnFacilityStatusChanged.Invoke(false);
 
     }
 

@@ -13,8 +13,6 @@ public class FacilityB : Facility
     [SerializeField, Range(0f, 1f)] private float targetMin = 0.05f;
     [SerializeField, Range(0f, 1f)] private float targetMax = 0.95f;
 
-    [Header("Observation")]
-    [SerializeField]private bool isFault;
     public override void Initialize()
     {
         foreach (var slider in sliders)
@@ -22,27 +20,28 @@ public class FacilityB : Facility
             slider.Initialize();
             slider.OnValueChanged += OnSliderValueChanged;
         }
+        isFault = false;
     }
 
-    // 목표가 지정된 슬라이더 중 하나라도 범위 밖이면 고장. 목표가 없으면(정상 상태) 고장이 아니다
-    public override bool IsFault()
-    {
-        foreach (var slider in sliders)
-        {
-            if (slider.HasTarget && !slider.IsInRange) return true;
-        }
-        return false;
-    }
-
-    public override void MakeFault()
+    protected override void GenerateGoal()
     {
         foreach (var slider in sliders)
         {
             slider.SetTarget(MakeTarget(slider.Value), tolerance);
         }
     }
+  
+    protected override bool IsGoalReached()
+    {
+        foreach (var slider in sliders)
+        {
+            if (!slider.IsInRange) return false;
+        }
+        return true;
+    }
 
-    public override void Clear()
+    // 슬라이더 전부 기본값, 목표 해제. 잡고 있던 드래그도 끝난다 (FirstPersonController가 IsDragging으로 알아챈다)
+    protected override void ResetDevices()
     {
         foreach (var slider in sliders)
         {
@@ -52,8 +51,7 @@ public class FacilityB : Facility
 
     private void OnSliderValueChanged()
     {
-        OnFacilityInteracted?.Invoke(IsFault(), facilityID);
-        isFault = IsFault();
+        OnDeviceChanged();
     }
 
     /// <summary>

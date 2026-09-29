@@ -49,10 +49,10 @@ public class FacilityManager : MonoBehaviour
     }
     
 
+    // 설비가 수리를 완료했을 때만 온다 (isFault = false). 장치 초기화는 설비가 스스로 한다
     private void OnFacilityInteracted(bool isFault, int facilityID)
     {
-        OnFacilityStatusChanged?.Invoke(!isFault); 
-        if(!isFault) _facilities[facilityID].Clear();   
+        OnFacilityStatusChanged?.Invoke(!isFault);
     }
     
     private void OnFaultMade(int count)

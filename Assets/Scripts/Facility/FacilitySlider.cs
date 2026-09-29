@@ -137,8 +137,9 @@ public class FacilitySlider : MonoBehaviour, IDraggable
     {
         _dragCamera = null;
         if (dragLoopSource != null) dragLoopSource.Stop();
-        OnValueChanged?.Invoke();
     }
+
+    public bool IsDragging => _dragCamera != null;
 
     // ---------- Internal ----------
 

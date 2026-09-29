@@ -192,7 +192,8 @@ public class FirstPersonController : MonoBehaviour
         }
 
         // 드래그 중 Esc로 커서가 풀렸으면 놓는다 (Escape 입력은 FirstPersonCamera가 받는다)
-        if (!firstPersonCamera.IsCursorLocked)
+        // 장치가 스스로 드래그를 끝냈으면(수리 후 초기화 등) 이쪽도 정리한다
+        if (!firstPersonCamera.IsCursorLocked || !_dragTarget.IsDragging)
         {
             StopDrag();
             return;
